@@ -96,49 +96,55 @@ let carros = [
   // Puedes agregar más carros si lo deseas
 ];
 
-let usuarios = [
-  {
-    username: "ushima10",
-    name: "Daniel Ushima",
-    password: "contraseña1",
-    role: "Administrador",
-    prestamos: [],
-  },
-  {
-    username: "lalamejia19",
-    name: "Laura Mejia",
-    password: "contraseña2",
-    role: "Usuario",
+let usuarios;
+if (localStorage.getItem("users") == null) {
+  usuarios = [
+    /* {
+      username: "ushima10",
+      name: "Daniel Ushima",
+      password: "contraseña1",
+      role: "Administrador",
+      prestamos: [],
+    },
+    {
+      username: "lalamejia19",
+      name: "Laura Mejia",
+      password: "contraseña2",
+      role: "Usuario",
 
-    prestamos: [
-      {
-        username: "lalamejia19",
-        placa: "USH324",
-        marca: "Hyundai",
-        fechaPrestamo: `2023-12-12`,
-        fechaDevolucion: `2024-12-12`,
-        numeroRenta: 1234567,
-        devuelto: false,
-      },
-      {
-        username: "lalamejia19",
-        placa: "EFG123",
-        marca: "Audi",
-        fechaPrestamo: `2023-12-12`,
-        fechaDevolucion: `2024-12-12`,
-        numeroRenta: 2222222,
-        devuelto: false,
-      },
-    ],
-  },
-  {
-    username: "elPanda00",
-    name: "David Jaramillo",
-    password: "contraseña3",
-    role: "Usuario",
-    prestamos: [],
-  },
-];
+      prestamos: [
+        {
+          username: "lalamejia19",
+          placa: "USH324",
+          marca: "Hyundai",
+          fechaPrestamo: `2023-12-12`,
+          fechaDevolucion: `2024-12-12`,
+          numeroRenta: 1234567,
+          devuelto: false,
+        },
+        {
+          username: "lalamejia19",
+          placa: "EFG123",
+          marca: "Audi",
+          fechaPrestamo: `2023-12-12`,
+          fechaDevolucion: `2024-12-12`,
+          numeroRenta: 2222222,
+          devuelto: false,
+        },
+      ],
+    },
+    {
+      username: "elPanda00",
+      name: "David Jaramillo",
+      password: "contraseña3",
+      role: "Usuario",
+      prestamos: [],
+    }, */
+  ];
+} else {
+  usuarios = JSON.parse(localStorage.getItem("users"));
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   let storedCarros = JSON.parse(localStorage.getItem("carros"));
   if (storedCarros) {

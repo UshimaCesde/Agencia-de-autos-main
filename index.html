@@ -61,7 +61,7 @@
         e.preventDefault();
         let username = document.getElementById("username").value;
         let password = document.querySelector("#password").value;
-        let Users = JSON.parse(localStorage.getItem("users")) || [];
+        let usuarios = JSON.parse(localStorage.getItem("users")) || [];
         currentUser = usuarios.find(
           (user) => user.username === username && user.password === password
         );

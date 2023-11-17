@@ -31,6 +31,7 @@
     </nav>
 
     <!-- FORMULARIO: -->
+    <form action="" id="signupForm">
     <div style="margin-left: 10%; margin-right: 10%">
       <div
         class="container position-absolute top-50 start-50 translate-middle"
@@ -50,7 +51,6 @@
         <div class="alert d-none" id="mensaje-registro"></div>
         <!-- Acá hay que poner algo como registro exitoso con alert-succes -->
 
-        <form action="" id="signupForm">
           <div class="row" style="margin-top: 10px">
             <div class="col-12">
               <label for="">Username</label>
@@ -135,6 +135,7 @@
             >
               Registrarse
             </button>
+            <a class="btn-registrar" href="/index.html">Iniciar Sesión</a>
           </div>
         </form>
       </div>
@@ -144,35 +145,58 @@
       &copy; RUEDALIBRE by Juan David Jaramillo, Laura Mejía Londoño y Daniel
       Mejía Ushima. CESDE 2023
     </footer>
+    <script src="scriptRentar.js"></script>
     <script>
+    document.addEventListener("DOMContentLoaded", function () {
       let signupForm = document.getElementById("signupForm");
+    
       signupForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        
         let username = document.querySelector("#username").value;
         let name = document.querySelector("#name").value;
         let key = document.getElementById("key").value;
         let role = document.getElementById("role").value;
         let password = document.querySelector("#password").value;
+        let mensaje = document.getElementById("mensaje-registro").value;
 
         let Users = JSON.parse(localStorage.getItem("users")) || [];
-        let isUserRegistered = Users.find((user) => user.name === name);
+        let isUserRegistered = usuarios.find((user) => user.username === username);
+       
         if (isUserRegistered) {
+          Users = usuarios;
+          /*mensaje.classList.remove("d-none");
+          mensaje.classList.remove("alert-success");
+          mensaje.classList.add("alert-danger");
+          mensaje.textContent = "El usuario ya esta registado!";
+          setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);*/
           return alert("El usuario ya esta registado!");
-        }
+        }else{
 
-        Users.push({
+        usuarios.push({
           username: username,
           name: name,
           role: role,
           password: password,
           key: key,
         });
-        localStorage.setItem("users", JSON.stringify(Users));
+        localStorage.setItem("users", JSON.stringify(usuarios));
+        /*mensaje.classList.remove("alert-danger");
+        mensaje.classList.add("alert-success");
+        mensaje.textContent = "Registro Exitoso!";
+        setTimeout(() => {
+            mensaje.textContent = "";
+            mensaje.classList.add("d-none");
+          }, 3000);*/
         alert("Registro Exitoso!");
         window.location.href = "index.html";
-      });
+        }
+        }
+        )});
     </script>
-    <script src="renta.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
