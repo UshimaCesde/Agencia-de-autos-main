@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="/icon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Rueda Libre</title>
+    <link rel="icon" href="/img/logopestana.png" type="image/x-icon" />
+  </head>
+
+  <body>
+    <!-- TOP NAVIGATION -->
+    <nav>
+      <p class="welcome">Hola, inicie sesión para continuar</p>
+      <img src="/img/logo-RUEDALIBREgris3.png" alt="Logo" class="" />
+    </nav>
+
+    <div class="applog">
+      <form class="login" id="loginForm">
+        <input
+          type="text"
+          placeholder="Usuario"
+          class="form-control1 login__input login__input--user"
+          id="username"
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          class="form-control1 login__input login__input--pin"
+          id="password"
+        />
+        <button title="Iniciar Sesión" class="login__btn">&rarr;</button>
+      </form>
+      <div style="margin: 1rem 0rem 0rem 0rem">
+        <a class="btn-registrar" href="/userregister.html">Registrarse Aquí</a>
+        <a class="btn-registrar" href="/forgetpass.html"
+          >¿Olvidó su Contraseña?</a
+        >
+      </div>
+    </div>
+
+    <div class="contenedor-img">
+      <img class="img-inicio" src="/img/imageninicio.png" alt="" />
+    </div>
+
+    <footer class="pie">
+      &copy; RUEDALIBRE by Juan David Jaramillo, Laura Mejía Londoño y Daniel
+      Mejía Ushima. CESDE 2023
+    </footer>
+
+    <script src="scriptRentar.js"></script>
+    <script>
+      let loginForm = document.querySelector("#loginForm");
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let username = document.getElementById("username").value;
+        let password = document.querySelector("#password").value;
+        let Users = JSON.parse(localStorage.getItem("users")) || [];
+        currentUser = usuarios.find(
+          (user) => user.username === username && user.password === password
+        );
+        if (currentUser) {
+          usuarios = currentUser;
+        }
+        if (!currentUser) {
+          return alert("Usuario y/o contraseña incorrectos!");
+        }
+        alert(`Bienvenido ${currentUser.name}`);
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        if (currentUser.role === "Administrador") {
+          window.location.href = "crud.html";
+        } else if (currentUser.role === "Usuario") {
+          window.location.href = "rentar.html";
+        } else {
+          return alert("Seleccione un rol para continuar");
+        }
+      });
+    </script>
+  </body>
+</html>

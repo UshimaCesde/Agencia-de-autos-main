@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rentar</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/img/logopestana.png" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- BARRA DE NAVEGACIÓN: -->
+    <nav class="nav2">
+      <div style="width: 20%">
+        <p class="welcome"></p>
+      </div>
+      <div style="width: 33%">
+        <img src="/img/logo-RUEDALIBREgris3.png" alt="Logo" class="" />
+      </div>
+      <div>
+        <a href="devolucion.html">
+          <button
+            class="login__btn2"
+            style="margin-right: 30px"
+            title="Devoluciones"
+          >
+            Devolución
+          </button></a
+        >
+        <a href="index.html">
+          <button id="logout" class="login__btn2" title="Cerrar Sesión">
+            X
+          </button></a
+        >
+      </div>
+    </nav>
+
+    <!-- FORMULARIO: -->
+
+    <main class="app">
+      <div class="balance">
+        <div>
+          <p class="balance__label">Historial de Rentas</p>
+          <p class="balance__date">
+            <span class="date">Fecha Actual</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="movements"></div>
+
+      <div class="operation operation--rentar">
+        <h2>Rentar un vehículo</h2>
+        <form action="">
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="placa">Placa</label>
+              <select
+                name="placa"
+                id="placa"
+                class="form-select form-select-lg"
+              >
+                <option value="" selected disabled>Seleccione una Placa</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="fecha-inicial">Fecha Inicial</label>
+              <input
+                type="date"
+                id="fecha-inicial"
+                class="form-control form-control-lg"
+                name="fecha-inicial"
+              />
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="fecha-inicial">Fecha Final</label>
+              <input
+                type="date"
+                id="fecha-final"
+                class="form-control form-control-lg"
+                name="fecha-final"
+              />
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="numero-renta">Número de Renta RL:</label>
+              <input
+                type="text"
+                id="numero-renta"
+                readonly
+                placeholder=""
+                class="form-control form-control-lg"
+                name="valor"
+              />
+            </div>
+          </div>
+
+          <div
+            class="text-center"
+            style="
+              margin-top: 30px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <button
+              type="button"
+              style="
+                width: fit-content;
+                width: 9rem;
+                height: 3.5rem;
+                font-size: 1.2rem;
+                padding: auto;
+              "
+              class="btn btn-dark rounded-pill"
+              id="btn-guardar"
+              name="btn-guardar"
+              title="Rentar"
+            >
+              Rentar
+            </button>
+          </div>
+          <!-- MODAL ACA -->
+          <div
+            style="
+              margin: 1rem 0rem 0rem 0rem;
+              text-align: center;
+              font-size: 1rem;
+            "
+          >
+            <a class="btn-registrar" href="#modal1"
+              >Lista de Vehículos Disponibles</a
+            >
+          </div>
+
+          <!-- MODAL ACA -->
+        </form>
+      </div>
+
+      <div id="modal1" class="modalmask">
+        <div class="modalbox movedown">
+          <div style="text-align: end">
+            <a href="#close" title="Cerrar" class="close__btn2">X</a>
+          </div>
+          <h2>Aquí tienes la lista de vehículos disponibles</h2>
+          <p>
+            "Adivina ya te opina, ya ni miles origina, ya ni cetro me domina, ya
+            ni monarcas, a repaso ni mulato carreta, acaso nicotina, ya ni cita
+            vecino, anima cocina, pedazo gallina, cedazo terso nos retoza de
+            canilla goza, de pánico camina, ónice vaticina, ya ni tocino saca, a
+            terracota luminosa pera, sacra nómina y ánimo de mortecina, ya ni
+            giros elimina, ya ni poeta, ya ni vida"
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      &copy; RUEDALIBRE by Juan David Jaramillo, Laura Mejía Londoño y Daniel
+      Mejía Ushima. CESDE 2023
+    </footer>
+    <script src="scriptRentar.js"></script>
+    <script>
+      // Variables
+      const elInitialDate = document.getElementById("fecha-inicial");
+      let randomRentNumber = generarNumeroRenta();
+      let arrayDisponibles = [];
+
+      // Funciones
+
+      function showAvailable() {
+        /* elPlate.innerHTML = ""; */
+
+        carros.forEach(function (carro) {
+          if (carro.estado === "disponible") {
+            let option = document.createElement("option");
+            option.value = carro.placa;
+            option.text = carro.placa;
+            elPlate.appendChild(option);
+          }
+
+          /*  if option.length === 0 crear una opcion que diga no hay carros disponibles en el momento*/
+        });
+      }
+
+      function generarNumeroRenta() {
+        return Math.floor(1000000 + Math.random() * 9000000);
+      }
+      function modalList() {
+        // Filtrar autos disponibles
+        const arrayDisponibles = carros.filter(function (carro) {
+          return carro.estado === "disponible";
+        });
+
+        // Obtener el contenedor del modal
+        const modalContainer = document.querySelector("#modal1 .modalbox");
+
+        // Limpiar el contenido existente en el modal
+        modalContainer.innerHTML = "";
+
+        // Crear un botón para cerrar el modal
+        const closeButton = document.createElement("a");
+        closeButton.href = "#close";
+        closeButton.title = "Cerrar";
+        closeButton.className = "close__btn2";
+        closeButton.textContent = "X";
+
+        // Agregar el botón "X" al modal
+        modalContainer.appendChild(closeButton);
+
+        // Crear elementos para cada auto disponible y agregarlos al modal
+        arrayDisponibles.forEach(function (carro) {
+          // Crear un nuevo div para representar la información del auto
+          const divAuto = document.createElement("div");
+          divAuto.className = "movements__row";
+
+          // Crear elementos para cada propiedad del auto y agregarlos al div
+          const divType = document.createElement("div");
+          divType.className = "movements__type movements__type--devuelto";
+          divType.textContent = "Disponible";
+
+          const divMarca = document.createElement("div");
+          divMarca.className = "movements__marca";
+          divMarca.textContent = carro.marca;
+
+          const divValorDia = document.createElement("div");
+          divValorDia.className = "movements__valordia";
+          divValorDia.textContent = `$${carro.valorDia} día`;
+
+          const divPlaca = document.createElement("div");
+          divPlaca.className = "movements__placa";
+          divPlaca.textContent = carro.placa;
+
+          // Agregar los elementos al div del auto
+          divAuto.appendChild(divType);
+          divAuto.appendChild(divMarca);
+          divAuto.appendChild(divValorDia);
+          divAuto.appendChild(divPlaca);
+
+          // Agregar el div del auto al contenedor del modal
+          modalContainer.appendChild(divAuto);
+        });
+      }
+
+      // CARGA DE ELEMENTOS DEL DOMINIO
+      document.addEventListener("DOMContentLoaded", function () {
+        currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        let storedCarros = JSON.parse(localStorage.getItem("carros"));
+        if (storedCarros) {
+          carros = storedCarros;
+        }
+
+        let storedPrestamos = JSON.parse(localStorage.getItem("prestamos"));
+        if (storedPrestamos) {
+          currentUser.prestamos = storedPrestamos;
+        }
+        if (welcomeParagraph) {
+          welcomeParagraph.textContent = `¡Hola, ${
+            currentUser.name.split(` `)[0]
+          }!`;
+        }
+        rents();
+        showAvailable();
+        modalList();
+        btnGuardar.addEventListener("click", function (event) {
+          event.preventDefault();
+          const placa = elPlate.value;
+          const fechaInicial = elInitialDate.value;
+          const fechaFinal = elFinalDate.value;
+          const numeroRenta = elRentNumber.value;
+
+          const carro = findCar(placa);
+          toggleState(placa);
+          elPlate.innerHTML = "";
+          showAvailable();
+          elRentNumber.value = generarNumeroRenta();
+
+          // Save data to localStorage
+          localStorage.setItem("carros", JSON.stringify(carros));
+
+          currentUser.prestamos.push({
+            username: currentUser.username,
+            placa: placa,
+            marca: carro.marca,
+            fechaPrestamo: fechaInicial,
+            fechaDevolucion: fechaFinal,
+            numeroRenta: numeroRenta,
+            devuelto: false,
+          });
+          // Save data to localStorage
+          localStorage.setItem(
+            "prestamos",
+            JSON.stringify(currentUser.prestamos)
+          );
+          modalList();
+          rents();
+          alert(
+            `El auto ${carro.marca} con placa ${carro.placa} tiene una fecha de devolución para el próximo ${fechaFinal}. \nEl número de renta correspondiente es: RL${numeroRenta}`
+          );
+        });
+
+        logout.addEventListener("click", realizarLogout);
+
+        /* Definiendo fechas como fijas */
+        elInitialDate.valueAsDate = new Date();
+        const automaticFinalDate = new Date();
+
+        automaticFinalDate.setMonth(automaticFinalDate.getMonth() + 1);
+
+        elFinalDate.valueAsDate = automaticFinalDate;
+
+        /*  asociando el random number a el .value*/
+
+        elRentNumber.value = randomRentNumber;
+      });
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

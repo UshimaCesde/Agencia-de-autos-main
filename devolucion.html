@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Devolver Vehículo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/img/logopestana.png" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- BARRA DE NAVEGACIÓN: -->
+    <nav class="nav2">
+      <div style="width: 20%"><p class="welcome">¡Hola, #Nombre#!</p></div>
+      <div style="width: 33%">
+        <img src="/img/logo-RUEDALIBREgris3.png" alt="Logo" class="" />
+      </div>
+      <div>
+        <a href="rentar.html">
+          <button class="login__btn2" style="margin-right: 30px" title="Rentar">
+            Rentar
+          </button></a
+        >
+        <a href="index.html">
+          <button id="logout" class="login__btn2" title="Cerrar Sesión">
+            X
+          </button></a
+        >
+      </div>
+    </nav>
+
+    <!-- FORMULARIO: -->
+
+    <main class="app">
+      <div class="balance">
+        <div>
+          <p class="balance__label">Historial de Rentas</p>
+          <p class="balance__date">
+            <span class="date">Fecha Actual</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="movements"></div>
+
+      <div class="operation operation--devolver">
+        <h2>Devolver un Vehículo</h2>
+        <form action="">
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="numero-renta">Número de Renta</label>
+              <select
+                name="numero-renta"
+                id="numero-renta"
+                class="form-select form-select-lg"
+              >
+                <option value="" selected disabled>
+                  Seleccione un número de renta
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="placa">Placa</label>
+              <input
+                type="text"
+                name="placa"
+                id="placa"
+                readonly
+                class="form-control form-control-lg"
+              />
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="">Fecha de Devolución</label>
+              <input
+                type="date"
+                id="fecha-final"
+                readonly
+                class="form-control form-control-lg"
+                name="fecha-final"
+              />
+            </div>
+          </div>
+
+          <div
+            class="text-center"
+            style="
+              margin-top: 30px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <button
+              type="button"
+              style="
+                width: fit-content;
+                width: 9rem;
+                height: 3.5rem;
+                font-size: 1.2rem;
+                padding: auto;
+              "
+              class="btn btn-dark rounded-pill"
+              id="btn-guardar"
+              name="btn-guardar"
+              title="Devolver"
+            >
+              Devolver
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      &copy; RUEDALIBRE by Juan David Jaramillo, Laura Mejía Londoño y Daniel
+      Mejía Ushima. CESDE 2023
+    </footer>
+
+    <script src="scriptRentar.js"></script>
+    <script>
+      function showrented() {
+        // Filtra los préstamos del currentUser que no han sido devueltos
+        let userPrestamos = currentUser.prestamos.filter(
+          (prestamo) =>
+            !prestamo.devuelto && prestamo.username === currentUser.username
+        );
+
+        // Limpia las opciones existentes
+        elRentNumber.innerHTML = "";
+
+        // Si hay carros disponibles para mostrar
+        if (userPrestamos.length > 0) {
+          // Agrega las opciones al elemento select
+          userPrestamos.forEach(function (prestamo) {
+            let option = document.createElement("option");
+            option.value = prestamo.numeroRenta;
+            option.text = `RL${prestamo.numeroRenta}`;
+            elRentNumber.appendChild(option);
+          });
+        } else {
+          // Si no hay carros disponibles, crea una opción indicando eso
+          let option = document.createElement("option");
+          option.text = "No hay carros disponibles en el momento";
+          elRentNumber.appendChild(option);
+        }
+      }
+
+      /* function showrented() {
+        // Filtra los préstamos del currentUser que no han sido devueltos
+        let userPrestamos = currentUser.prestamos.filter(
+          (prestamo) =>
+            !prestamo.devuelto && prestamo.username === currentUser.username
+        );
+
+        // Limpia las opciones existentes
+        elRentNumber.innerHTML = "";
+
+        // Si hay carros disponibles para mostrar
+        if (userPrestamos.length > 0) {
+          // Agrega las opciones al elemento select
+          userPrestamos.forEach(function (prestamo) {
+            let option = document.createElement("option");
+            option.value = prestamo.numeroRenta;
+            option.text = `RL${prestamo.numeroRenta}`;
+            elRentNumber.appendChild(option);
+          });
+        } else {
+          // Si no hay carros disponibles, crea una opción indicando eso
+          let option = document.createElement("option");
+          option.text = "No hay carros disponibles en el momento";
+          elRentNumber.appendChild(option);
+        }
+      } */
+
+      document.addEventListener("DOMContentLoaded", function () {
+        let user = JSON.parse(localStorage.getItem("currentUser"));
+
+        // Retrieve data from localStorage
+        let storedPrestamos = JSON.parse(localStorage.getItem("prestamos"));
+
+        if (storedPrestamos) {
+          currentUser.prestamos = storedPrestamos;
+        }
+
+        // Retrieve data from localStorage
+        let storedCarros = JSON.parse(localStorage.getItem("carros"));
+
+        if (storedCarros) {
+          carros = storedCarros;
+        }
+        if (welcomeParagraph) {
+          welcomeParagraph.textContent = `¡Hola, ${
+            currentUser.name.split(` `)[0]
+          }!`;
+        }
+        showrented();
+        rents();
+        elRentNumber.addEventListener("change", function () {
+          const numeroRentaSeleccionado = elRentNumber.value;
+
+          // Busca el préstamo correspondiente al número de renta seleccionado
+          const prestamoSeleccionado = currentUser.prestamos.find(
+            (prestamo) => prestamo.numeroRenta == numeroRentaSeleccionado
+          );
+
+          // Actualiza los campos de número de placa y fecha de devolución
+          if (prestamoSeleccionado) {
+            elPlate.value = prestamoSeleccionado.placa;
+            elFinalDate.value = prestamoSeleccionado.fechaDevolucion;
+          } else {
+            // Si no se encuentra el préstamo correspondiente, limpia los campos
+            elPlate.value = "";
+            elfindalDate.value = "";
+          }
+        });
+
+        btnGuardar.addEventListener("click", function (event) {
+          event.preventDefault();
+
+          const numeroRentaSeleccionado = elRentNumber.value;
+
+          // Busca el préstamo correspondiente al número de renta seleccionado
+          let prestamoSeleccionado = currentUser.prestamos.find(
+            (prestamo) => prestamo.numeroRenta == numeroRentaSeleccionado
+          );
+
+          toggleState(prestamoSeleccionado.placa);
+          prestamoSeleccionado.devuelto = true;
+          elRentNumber.innerHTML = "";
+          elPlate.value = "";
+          elFinalDate.value = "";
+
+          let defaultOption = document.createElement("option");
+          defaultOption.value = "";
+          defaultOption.text = "Seleccione una opción";
+          elRentNumber.appendChild(defaultOption);
+
+          showrented();
+          localStorage.setItem("carros", JSON.stringify(carros));
+          localStorage.setItem(
+            "prestamos",
+            JSON.stringify(currentUser.prestamos)
+          );
+          rents();
+        });
+        logout.addEventListener("click", realizarLogout);
+      });
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

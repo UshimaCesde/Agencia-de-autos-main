@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Actualización de Vehículos</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/img/logopestana.png" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- BARRA DE NAVEGACIÓN: -->
+    <nav>
+      <p class="welcome">¡Hola, Administrador!</p>
+      <img src="/img/logo-RUEDALIBREgris3.png" alt="Logo" class="" />
+      <button id="logout" class="login__btn1" title="Cerrar Sesión">X</button>
+      <div class="navbar-links"></div>
+    </nav>
+
+    <!-- FORMULARIO: -->
+    <div style="margin-left: 10%; margin-right: 10%">
+      <div
+        class="container position-absolute top-50 start-50 translate-middle"
+        style="width: 30%"
+      >
+        <div class="text-center">
+          <img
+            src="/img/logo-RUEDALIBREgris2.png"
+            alt="RuedaLibre"
+            class="img-fluid"
+            style="width: 100px"
+          />
+          <h4 class="text-center fs-5 fw-semibol" style="margin-top: 10px">
+            Actualización de vehículos para la renta
+          </h4>
+        </div>
+        <div class="alert d-none" id="mensaje"></div>
+
+        <form action="">
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="placa">Placa </label>
+              <input
+                type="text"
+                id="plate"
+                class="form-control form-control-lg"
+                name="plate"
+                placeholder="ABC123"
+              />
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="marca">Marca</label>
+              <input
+                type="text"
+                id="brand"
+                class="form-control form-control-lg"
+                name="brand"
+              />
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="estado">Estado</label>
+              <select
+                name="state"
+                id="state"
+                class="form-select form-select-lg"
+              >
+                <option value="" selected disabled>
+                  Seleccione el estado del vehículo
+                </option>
+                <option value="disponible">Disponible</option>
+                <option value="no disponible">No Disponible</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <label for="Valor">Valor día</label>
+              <input
+                type="number"
+                id="value"
+                placeholder="$"
+                class="form-control form-control-lg"
+                name="value"
+              />
+            </div>
+          </div>
+
+          <div
+            class="text-center"
+            style="
+              margin-top: 30px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <button
+              type="button"
+              style="margin-right: 10px"
+              class="btn btn-dark rounded-pill"
+              id="btnguardar"
+              name="btnguardar"
+              title="Guardar"
+            >
+              <i class="fas fa-save"></i>
+            </button>
+            <button
+              type="button"
+              style="margin-right: 10px"
+              class="btn btn-dark rounded-pill"
+              id="btnbuscar"
+              name="btnbuscar"
+              title="Buscar"
+            >
+              <i class="fas fa-search"></i>
+            </button>
+            <button
+              type="button"
+              style="margin-right: 10px"
+              class="btn btn-dark rounded-pill"
+              id="btnactualizar"
+              name="btnactualizar"
+              title="Actualizar"
+            >
+              <i class="fas fa-sync-alt"></i>
+            </button>
+            <button
+              type="button"
+              style="margin-right: 10px"
+              class="btn btn-dark rounded-pill"
+              id="btneliminar"
+              name="btneliminar"
+              title="Eliminar"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+            <button
+              type="button"
+              style="margin-right: 10px"
+              class="btn btn-dark rounded-pill"
+              id="btnlimpiar"
+              name="btnlimpiar"
+              title="Limpiar"
+            >
+              <i class="fas fa-eraser"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      &copy; RUEDALIBRE by Juan David Jaramillo, Laura Mejía Londoño y Daniel
+      Mejía Ushima. CESDE 2023
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        let storedCarros = JSON.parse(localStorage.getItem("carros"));
+        if (storedCarros) {
+          carros = storedCarros;
+        }
+
+        let buscarCarro = "";
+        let placa = document.getElementById("plate");
+        let marca = document.getElementById("brand");
+        let estado = document.getElementById("state");
+        let valorDia = document.getElementById("value");
+        let mensaje = document.getElementById("mensaje");
+
+        mensaje.classList.add("d-none");
+
+        function encontrarAuto(parametroPlaca) {
+          return carros.find((coche) => coche.placa === parametroPlaca);
+        }
+
+        function agregarAuto(placa, marca, estado, valorDia) {
+          mensaje.classList.remove("d-none");
+          let autoencontrado = encontrarAuto(placa);
+          if (!autoencontrado) {
+            carros.push({ placa, marca, estado, valorDia });
+            limpiarCampo();
+            // Save data to localStorage
+            localStorage.setItem("carros", JSON.stringify(carros));
+            mensaje.classList.remove("alert-danger");
+            mensaje.classList.add("alert-success");
+            mensaje.textContent = "Producto Agregado Exitosamente";
+            setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          } else {
+            mensaje.classList.remove("alert-success");
+            mensaje.classList.add("alert-danger");
+            mensaje.textContent = "La PLACA del vehículo ya está guardada";
+            setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          }
+        }
+
+        function buscarAuto(placaParametro) {
+          let autoencontrado = encontrarAuto(placaParametro);
+          console.log(autoencontrado);
+
+          if (autoencontrado) {
+            let {
+              marca: marcaEncontrada,
+              estado: estadoEncontrado,
+              valorDia: valorDiaEncontrado,
+            } = autoencontrado;
+            marca.value = marcaEncontrada;
+            estado.value = estadoEncontrado;
+            valorDia.value = valorDiaEncontrado;
+            buscarCarro = placaParametro;
+          } else {
+            mensaje.classList.remove("alert-success");
+            mensaje.classList.add("alert-danger");
+            mensaje.classList.remove("d-none");
+            mensaje.textContent = "La PLACA del vehículo no está registrada";
+            setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          }
+        }
+
+        function actualizarAuto() {
+          if (buscarCarro !== "") {
+            let posicion = carros.findIndex(
+              (coche) => coche.placa === buscarCarro
+            );
+            if (posicion !== -1) {
+              carros[posicion] = {
+                placa: placa.value,
+                marca: marca.value,
+                estado: estado.value,
+                valorDia: valorDia.value,
+              };
+              limpiarCampo();
+              // Save data to localStorage
+              localStorage.setItem("carros", JSON.stringify(carros));
+
+              mensaje.classList.remove("d-none");
+              mensaje.classList.remove("alert-danger");
+              mensaje.classList.add("alert-success");
+              mensaje.textContent =
+                "La información del vehículo ha sido actualizada con éxito";
+              setTimeout(() => {
+                mensaje.textContent = "";
+                mensaje.classList.add("d-none");
+              }, 3000);
+            } else {
+              mensaje.classList.remove("alert-success");
+              mensaje.classList.add("alert-danger");
+              mensaje.classList.remove("d-none");
+              mensaje.textContent = "El vehículo no existe en la lista";
+              setTimeout(() => {
+                mensaje.textContent = "";
+                mensaje.classList.add("d-none");
+              }, 3000);
+            }
+          } else {
+            mensaje.classList.remove("alert-success");
+            mensaje.classList.add("alert-danger");
+            mensaje.classList.remove("d-none");
+            mensaje.textContent =
+              "Debe buscar el vehículo para poder actualizarlo";
+            setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          }
+        }
+
+        function eliminarAuto() {
+          if (placa.value !== "") {
+            let posicion = carros.findIndex(
+              (coche) => coche.placa === placa.value
+            );
+
+            if (posicion !== -1) {
+              if (carros[posicion].estado === "disponible") {
+                // Car is available, proceed with deletion
+                confirmAndDelete(posicion);
+              } else {
+                // Car is on loan, ask for confirmation
+                if (
+                  confirm(
+                    `Este vehículo está actualmente prestado. ¿Está seguro de eliminar el vehículo de placa ${placa.value}?`
+                  )
+                ) {
+                  confirmAndDelete(posicion);
+                }
+              }
+            } else {
+              mensaje.classList.remove("alert-success");
+              mensaje.classList.add("alert-danger");
+              mensaje.classList.remove("d-none");
+              mensaje.textContent = "La PLACA del vehículo no existe aquí";
+              setTimeout(() => {
+                mensaje.textContent = "";
+                mensaje.classList.add("d-none");
+              }, 3000);
+            }
+          } else {
+            mensaje.classList.remove("alert-success");
+            mensaje.classList.add("alert-danger");
+            mensaje.classList.remove("d-none");
+            mensaje.textContent =
+              "Debe buscar el vehículo para poder eliminarlo";
+            setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          }
+        }
+
+        function confirmAndDelete(posicion) {
+          if (
+            confirm(
+              `Está seguro de eliminar el vehículo de placa ${placa.value}`
+            )
+          ) {
+            carros.splice(posicion, 1);
+
+            limpiarCampo();
+
+            // Save data to localStorage
+            localStorage.setItem("carros", JSON.stringify(carros));
+
+            mensaje.classList.add("alert-success");
+            mensaje.classList.remove("alert-danger");
+            mensaje.classList.remove("d-none");
+            mensaje.textContent = "El vehículo ha sido eliminado correctamente";
+            setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          }
+        }
+
+        function limpiarCampo() {
+          placa.value = "";
+          marca.value = "";
+          estado.value = "";
+          valorDia.value = "";
+          placa.focus();
+        }
+
+        // EVENTOS:
+
+        document.getElementById("btnguardar").addEventListener("click", () => {
+          if (
+            placa.value !== "" &&
+            marca.value !== "" &&
+            estado.value !== "" &&
+            valorDia.value !== ""
+          ) {
+            agregarAuto(placa.value, marca.value, estado.value, valorDia.value);
+          } else {
+            mensaje.classList.remove("alert-success");
+            mensaje.classList.add("alert-danger");
+            mensaje.textContent = "Es necesario completar todos los datos";
+            setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          }
+        });
+
+        document.getElementById("btnbuscar").addEventListener("click", () => {
+          buscarAuto(placa.value);
+        });
+
+        document
+          .getElementById("btnactualizar")
+          .addEventListener("click", () => {
+            actualizarAuto();
+          });
+
+        document.getElementById("btneliminar").addEventListener("click", () => {
+          eliminarAuto();
+        });
+
+        document.getElementById("btnlimpiar").addEventListener("click", () => {
+          limpiarCampo();
+        });
+        logout.addEventListener("click", realizarLogout);
+      });
+    </script>
+    <script src="scriptRentar.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
