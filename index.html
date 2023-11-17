@@ -56,18 +56,21 @@
 
     <script src="scriptRentar.js"></script>
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      });
+    </script>
+    <script>
       let loginForm = document.querySelector("#loginForm");
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         let username = document.getElementById("username").value;
         let password = document.querySelector("#password").value;
-        let usuarios = JSON.parse(localStorage.getItem("users")) || [];
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
         currentUser = usuarios.find(
-          (user) => user.username === username && user.password === password
+          (user) =>
+            user.username === username.value && user.password === password.value
         );
-        if (currentUser) {
-          usuarios = currentUser;
-        }
         if (!currentUser) {
           return alert("Usuario y/o contraseña incorrectos!");
         }

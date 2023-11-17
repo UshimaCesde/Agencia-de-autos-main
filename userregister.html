@@ -160,11 +160,11 @@
         let password = document.querySelector("#password").value;
         let mensaje = document.getElementById("mensaje-registro").value;
 
-        let Users = JSON.parse(localStorage.getItem("users")) || [];
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
         let isUserRegistered = usuarios.find((user) => user.username === username);
        
         if (isUserRegistered) {
-          Users = usuarios;
+          usuarios = usuarios;
           /*mensaje.classList.remove("d-none");
           mensaje.classList.remove("alert-success");
           mensaje.classList.add("alert-danger");
@@ -183,7 +183,7 @@
           password: password,
           key: key,
         });
-        localStorage.setItem("users", JSON.stringify(usuarios));
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
         /*mensaje.classList.remove("alert-danger");
         mensaje.classList.add("alert-success");
         mensaje.textContent = "Registro Exitoso!";
