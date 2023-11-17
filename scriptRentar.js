@@ -136,17 +136,7 @@ let usuarios = [
     name: "David Jaramillo",
     password: "contraseña3",
     role: "Usuario",
-    prestamos: [
-      {
-        username: "elPanda00",
-        placa: "HIJ456",
-        marca: "Mercedes",
-        fechaPrestamo: `2023-12-12`,
-        fechaDevolucion: `2024-12-12`,
-        numeroRenta: 7654321,
-        devuelto: false,
-      },
-    ],
+    prestamos: [],
   },
 ];
 document.addEventListener("DOMContentLoaded", function () {
