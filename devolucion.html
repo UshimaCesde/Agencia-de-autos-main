@@ -138,29 +138,37 @@
     <script src="scriptRentar.js"></script>
     <script>
       function showrented() {
-        // Filtra los préstamos del currentUser que no han sido devueltos
-        let userPrestamos = currentUser.prestamos.filter(
-          (prestamo) =>
-            !prestamo.devuelto && prestamo.username === currentUser.username
-        );
+        // Verifica si currentUser y currentUser.prestamos existen
+        if (currentUser && currentUser.prestamos) {
+          // Filtra los préstamos del currentUser que no han sido devueltos
+          let userPrestamos = currentUser.prestamos.filter(
+            (prestamo) =>
+              !prestamo.devuelto && prestamo.username === currentUser.username
+          );
 
-        // Limpia las opciones existentes
-        elRentNumber.innerHTML = "";
+          // Limpia las opciones existentes
+          elRentNumber.innerHTML = "";
 
-        // Si hay carros disponibles para mostrar
-        if (userPrestamos.length > 0) {
-          // Agrega las opciones al elemento select
-          userPrestamos.forEach(function (prestamo) {
+          // Si hay carros disponibles para mostrar
+          if (userPrestamos.length > 0) {
+            // Agrega las opciones al elemento select
+            userPrestamos.forEach(function (prestamo) {
+              let option = document.createElement("option");
+              option.value = prestamo.numeroRenta;
+              option.text = `RL${prestamo.numeroRenta}`;
+              elRentNumber.appendChild(option);
+            });
+          } else {
+            // Si no hay carros disponibles, crea una opción indicando eso
             let option = document.createElement("option");
-            option.value = prestamo.numeroRenta;
-            option.text = `RL${prestamo.numeroRenta}`;
+            option.text = "No hay carros disponibles en el momento";
             elRentNumber.appendChild(option);
-          });
+          }
         } else {
-          // Si no hay carros disponibles, crea una opción indicando eso
-          let option = document.createElement("option");
-          option.text = "No hay carros disponibles en el momento";
-          elRentNumber.appendChild(option);
+          // Manejar el caso en el que currentUser o currentUser.prestamos es undefined
+          console.error(
+            "Error: currentUser o currentUser.prestamos es undefined"
+          );
         }
       }
 

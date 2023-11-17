@@ -61,24 +61,23 @@
         e.preventDefault();
         let username = document.getElementById("username").value;
         let password = document.querySelector("#password").value;
-        let Users = JSON.parse(localStorage.getItem("users")) || [];
+        let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+        // Cambiado de "Users" a "usuarios"
         currentUser = usuarios.find(
           (user) => user.username === username && user.password === password
         );
         if (currentUser) {
-          usuarios = currentUser;
-        }
-        if (!currentUser) {
-          return alert("Usuario y/o contraseña incorrectos!");
-        }
-        alert(`Bienvenido ${currentUser.name}`);
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        if (currentUser.role === "Administrador") {
-          window.location.href = "crud.html";
-        } else if (currentUser.role === "Usuario") {
-          window.location.href = "rentar.html";
+          alert(`Bienvenido ${currentUser.name}`);
+          localStorage.setItem("currentUser", JSON.stringify(currentUser));
+          if (currentUser.role === "Administrador") {
+            window.location.href = "crud.html";
+          } else if (currentUser.role === "Usuario") {
+            window.location.href = "rentar.html";
+          } else {
+            return alert("Seleccione un rol para continuar");
+          }
         } else {
-          return alert("Seleccione un rol para continuar");
+          return alert("Usuario y/o contraseña incorrectos!");
         }
       });
     </script>

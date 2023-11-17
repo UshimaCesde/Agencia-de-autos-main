@@ -97,17 +97,20 @@ let carros = [
 ];
 
 let usuarios = [
+  /* 
   {
     username: "ushima10",
     name: "Daniel Ushima",
     password: "contraseña1",
     role: "Administrador",
+    key: "ushima",
     prestamos: [],
   },
   {
     username: "lalamejia19",
     name: "Laura Mejia",
     password: "contraseña2",
+    key: "lala",
     role: "Usuario",
 
     prestamos: [
@@ -136,8 +139,9 @@ let usuarios = [
     name: "David Jaramillo",
     password: "contraseña3",
     role: "Usuario",
+    key: "panda",
     prestamos: [],
-  },
+  }, */
 ];
 document.addEventListener("DOMContentLoaded", function () {
   let storedCarros = JSON.parse(localStorage.getItem("carros"));
@@ -194,48 +198,51 @@ function rents() {
     movementsDiv.removeChild(movementsDiv.firstChild);
   }
 
-  // Filtra los préstamos del currentUser
-  let userPrestamos = currentUser.prestamos.filter(
-    (prestamo) => prestamo.username === currentUser.username
-  );
+  // Verifica si currentUser.prestamos es undefined o null
+  if (currentUser.prestamos) {
+    // Invierte el orden de los préstamos para que el último sea el primero
+    currentUser.prestamos.reverse();
 
-  // Invierte el orden de los préstamos para que el último sea el primero
-  userPrestamos.reverse();
+    // Filtra los préstamos del currentUser
+    let userPrestamos = currentUser.prestamos.filter(
+      (prestamo) => prestamo.username === currentUser.username
+    );
 
-  // Ahora puedes agregar los nuevos elementos al contenedor
-  for (let prestamo of userPrestamos) {
-    // Crear un nuevo .movements__row div
-    let rowDiv = document.createElement("div");
-    rowDiv.className = "movements__row";
+    // Ahora puedes agregar los nuevos elementos al contenedor
+    for (let prestamo of userPrestamos) {
+      // Crear un nuevo .movements__row div
+      let rowDiv = document.createElement("div");
+      rowDiv.className = "movements__row";
 
-    // Crear .movements__type, .movements__date, y .movements__placa divs
-    let typeDiv = document.createElement("div");
-    typeDiv.className = `movements__type movements__type--${
-      prestamo.devuelto ? "devuelto" : "pendiente"
-    }`;
-    typeDiv.textContent = prestamo.devuelto
-      ? `RL${prestamo.numeroRenta}`
-      : `RL${prestamo.numeroRenta}`;
+      // Crear .movements__type, .movements__date, y .movements__placa divs
+      let typeDiv = document.createElement("div");
+      typeDiv.className = `movements__type movements__type--${
+        prestamo.devuelto ? "devuelto" : "pendiente"
+      }`;
+      typeDiv.textContent = prestamo.devuelto
+        ? `RL${prestamo.numeroRenta}`
+        : `RL${prestamo.numeroRenta}`;
 
-    let dateDiv = document.createElement("div");
-    dateDiv.className = "movements__date";
-    dateDiv.textContent = prestamo.fechaDevolucion;
+      let dateDiv = document.createElement("div");
+      dateDiv.className = "movements__date";
+      dateDiv.textContent = prestamo.fechaDevolucion;
 
-    let marcaDiv = document.createElement("div");
-    marcaDiv.className = "movements__marca";
-    marcaDiv.textContent = prestamo.marca;
+      let marcaDiv = document.createElement("div");
+      marcaDiv.className = "movements__marca";
+      marcaDiv.textContent = prestamo.marca;
 
-    let placaDiv = document.createElement("div");
-    placaDiv.className = "movements__placa";
-    placaDiv.textContent = prestamo.placa;
+      let placaDiv = document.createElement("div");
+      placaDiv.className = "movements__placa";
+      placaDiv.textContent = prestamo.placa;
 
-    // Append the divs to the .movements__row div
-    rowDiv.appendChild(typeDiv);
-    rowDiv.appendChild(dateDiv);
-    rowDiv.appendChild(marcaDiv);
-    rowDiv.appendChild(placaDiv);
+      // Append the divs to the .movements__row div
+      rowDiv.appendChild(typeDiv);
+      rowDiv.appendChild(dateDiv);
+      rowDiv.appendChild(marcaDiv);
+      rowDiv.appendChild(placaDiv);
 
-    // Append the .movements__row div to the .movements div
-    movementsDiv.appendChild(rowDiv);
+      // Append the .movements__row div to the .movements div
+      movementsDiv.appendChild(rowDiv);
+    }
   }
 }
