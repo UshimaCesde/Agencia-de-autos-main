@@ -20,7 +20,7 @@
       <p class="welcome">Hola, inicie sesión para continuar</p>
       <img src="/img/logo-RUEDALIBREgris3.png" alt="Logo" class="" />
     </nav>
-
+    <div class="alert d-none" id="mensaje"></div>
     <div class="applog">
       <form class="login" id="loginForm">
         <input
@@ -56,18 +56,18 @@
 
     <script src="scriptRentar.js"></script>
     <script>
-      let loginForm = document.querySelector("#loginForm");
+      let loginForm = document.getElementById("loginForm");
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         let username = document.getElementById("username").value;
-        let password = document.querySelector("#password").value;
+        let password = document.getElementById("password").value;
+        let mensaje = document.getElementById("mensaje");
         let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
         // Cambiado de "Users" a "usuarios"
         currentUser = usuarios.find(
           (user) => user.username === username && user.password === password
         );
         if (currentUser) {
-          alert(`Bienvenido ${currentUser.name}`);
           localStorage.setItem("currentUser", JSON.stringify(currentUser));
           if (currentUser.role === "Administrador") {
             window.location.href = "crud.html";
@@ -76,10 +76,24 @@
           } else {
             return alert("Seleccione un rol para continuar");
           }
+          limpiar();
         } else {
-          return alert("Usuario y/o contraseña incorrectos!");
+          mensaje.classList.remove("d-none");
+          mensaje.classList.remove("alert-success");
+          mensaje.classList.add("alert-danger");
+          mensaje.textContent = "Usuario y/o contraseña incorrectos!";
+          setTimeout(() => {
+            mensaje.textContent = "";
+            mensaje.classList.add("d-none");
+          }, 3000);
+          limpiar();
         }
       });
+      function limpiar() {
+        username.value = "";
+        password.value = "";
+        username.focus();
+      }
     </script>
   </body>
 </html>

@@ -31,6 +31,7 @@
     </nav>
 
     <!-- FORMULARIO: -->
+    <form class="login" id="signupForm">
     <div style="margin-left: 10%; margin-right: 10%">
       <div
         class="container position-absolute top-50 start-50 translate-middle"
@@ -47,10 +48,8 @@
             Registro de Usuario
           </h4>
         </div>
-        <div class="alert d-none" id="mensaje-registro"></div>
+        <div class="alert d-none" id="mensaje"></div>
         <!-- Acá hay que poner algo como registro exitoso con alert-succes -->
-
-        <form action="" id="signupForm">
           <div class="row" style="margin-top: 10px">
             <div class="col-12">
               <label for="">Username</label>
@@ -136,6 +135,15 @@
               Registrarse
             </button>
           </div>
+          <div
+            style="
+              margin: 1rem 0rem 0rem 0rem;
+              text-align: center;
+              font-size: 1rem;
+            "
+          >
+            <a class="btn-registrar" href="/index.html">Iniciar Sesión</a>
+          </div>
         </form>
       </div>
     </div>
@@ -144,25 +152,32 @@
       &copy; RUEDALIBRE by Juan David Jaramillo, Laura Mejía Londoño y Daniel
       Mejía Ushima. CESDE 2023
     </footer>
+    <script src="scriptRentar.js"></script>
     <script>
       let signupForm = document.getElementById("signupForm");
       signupForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        let username = document.querySelector("#username").value;
-        let name = document.querySelector("#name").value;
+        let username = document.getElementById("username").value;
+        let name = document.getElementById("name").value;
         let key = document.getElementById("key").value;
         let role = document.getElementById("role").value;
-        let password = document.querySelector("#password").value;
-
+        let password = document.getElementById("password").value;
+        let mensaje = document.getElementById("mensaje");
         let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
         let isUserRegistered = usuarios.find(
           (user) => user.username === username
         );
         if (isUserRegistered) {
-          return alert("El usuario ya está registrado");
-        }
-
-        usuarios.push({
+          mensaje.classList.remove("d-none");
+          mensaje.classList.remove("alert-success");
+          mensaje.classList.add("alert-danger");
+          mensaje.textContent = "El usuario ya esta registado!";
+          setTimeout(() => {
+              mensaje.textContent = "";
+              mensaje.classList.add("d-none");
+            }, 3000);
+          limpiar();
+        }else{usuarios.push({
           username: username,
           name: name,
           role: role,
@@ -171,12 +186,25 @@
           prestamos: [],
         });
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
-        alert("Registro Exitoso!");
-        window.location.href = "index.html";
-      });
+        mensaje.classList.remove("d-none");
+        mensaje.classList.remove("alert-danger");
+        mensaje.classList.add("alert-success");
+        mensaje.textContent = "Registro Exitoso!";
+        setTimeout(() => {
+            mensaje.textContent = "";
+            mensaje.classList.add("d-none");
+          }, 3000);
+        limpiar();
+      }});
+      function limpiar(){
+        username.value = "";
+        let name = document.getElementById("name").value = "";
+        key.value = "";
+        role.value = "";
+        password.value = "";
+        username.focus();
+      }
     </script>
-
-    <script src="renta.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"

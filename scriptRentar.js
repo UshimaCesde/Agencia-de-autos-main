@@ -184,7 +184,6 @@ function modalList() {
 }
 
 function realizarLogout() {
-  alert("Hasta pronto!");
   localStorage.removeItem("currentUser");
   window.location.href = "index.html";
 }
