@@ -156,7 +156,7 @@ const elFinalDate = document.getElementById("fecha-final");
 const elRentNumber = document.getElementById("numero-renta");
 
 const btnGuardar = document.getElementById("btn-guardar");
-
+let actualDate = document.getElementById("actualDate");
 let currentUser = "";
 let movementsContainer = document.querySelector(".movements");
 let movementsDiv = document.querySelector(".movements");
